@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const db = require('./db');
+const db = require('./src/db');
 const { ApolloServer } = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 const helmet = require('helmet');
@@ -8,9 +8,9 @@ const cors = require('cors');
 const depthLimit = require('graphql-depth-limit');
 const { createComplexityLimitRule } = require('graphql-validation-complexity');
 
-const models = require('./models');
-const typeDefs = require('./schema');
-const resolvers = require('./resolvers');
+const models = require('./src/models');
+const typeDefs = require('./src/schema');
+const resolvers = require('./src/resolvers');
 
 // Запускаем сервер на порте, указанном в файле .env, или на порте 4000
 const port = process.env.PORT;
@@ -23,7 +23,7 @@ app.use(helmet());
 // добавляем промежуточное ПО после app.use(helmet());
 app.use(cors());
 // Получаем информацию пользователя из JWT
-const getUser = (token) => {
+const getUser = token => {
   if (token) {
     try {
       // Возвращаем информацию пользователя из токена
@@ -46,10 +46,10 @@ const server = new ApolloServer({
     // Пытаемся извлечь пользователя с помощью токена
     const user = getUser(token);
     // Пока что будем выводить информацию о пользователе в консоль:
-    console.log(user);
+    // console.log(user);
     // Добавляем модели БД и пользователя в контекст
     return { models, user };
-  },
+  }
 });
 
 // Применяем промежуточное ПО Apollo GraphQL и указываем путь к /api
