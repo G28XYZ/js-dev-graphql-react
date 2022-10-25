@@ -1,6 +1,10 @@
 // Импортируем необходимые библиотеки
 import { useQuery, gql } from "@apollo/client";
+import ReactMarkdown from "react-markdown";
+
 import Button from "../components/Button";
+import NoteFeed from "../components/NoteFeed";
+
 // Наш GraphQL-запрос, хранящийся в виде переменной
 const GET_NOTES = gql`
   query NoteFeed($cursor: String) {
@@ -30,10 +34,34 @@ const Home = () => {
   if (error) return <p>Error!</p>;
   console.log(data);
   return (
-    <div>
-      <Button>Click!</Button>
-      Data loaded
-    </div>
+    <>
+      <NoteFeed notes={data.noteFeed.notes} />
+      {/* Only display the Load More button if hasNextPage is true */}
+      {data.noteFeed.hasNextPage && (
+        // onClick выполняет запрос, передавая в качестве переменной текущий курсор
+        <Button
+          onClick={() =>
+            fetchMore({
+              variables: {
+                cursor: data.noteFeed.cursor,
+              },
+              updateQuery: (previousResult, { fetchMoreResult }) => {
+                return {
+                  noteFeed: {
+                    cursor: fetchMoreResult.noteFeed.cursor,
+                    hasNextPage: fetchMoreResult.noteFeed.hasNextPage, // Совмещаем новые результаты со старыми
+                    notes: [...previousResult.noteFeed.notes, ...fetchMoreResult.noteFeed.notes],
+                    __typename: "noteFeed",
+                  },
+                };
+              },
+            })
+          }
+        >
+          Load more
+        </Button>
+      )}
+    </>
   );
 };
 export default Home;

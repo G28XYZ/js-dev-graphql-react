@@ -1,16 +1,27 @@
 import Pages from "./pages";
 // Импортируем библиотеки Apollo Client
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
+import { setContext } from "apollo-link-context";
 import GlobalStyle from "./components/GlobalStyle";
 
 // Настраиваем API URI и кэш
 const uri = process.env.API_URI || "http://localhost:4000/api";
+const httpLink = createHttpLink({ uri });
 const cache = new InMemoryCache();
-console.log(uri);
+// Проверяем наличие токена и возвращаем заголовки в контекст
+const authLink = setContext((_, { headers }) => {
+  return {
+    headers: {
+      ...headers,
+      authorization: localStorage.getItem("token") || "",
+    },
+  };
+});
 // Настраиваем Apollo Client
 const client = new ApolloClient({
-  uri,
+  link: Object.assign(authLink, httpLink),
   cache,
+  resolvers: {},
   connectToDevTools: true,
 });
 
