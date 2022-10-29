@@ -1,28 +1,15 @@
 import React, { FC } from "react";
 // Импортируем зависимости GraphQL
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 // Импортируем компонент Note
 import Note from "../components/Note";
-// Запрос note, принимающий переменную ID
-const GET_NOTE = gql`
-  query note($id: ID!) {
-    note(id: $id) {
-      id
-      createdAt
-      content
-      favoriteCount
-      author {
-        username
-        id
-        avatar
-      }
-    }
-  }
-`;
+import { GET_NOTE } from "../gql/query";
+import { useParams } from "react-router-dom";
 
 const NotePage: FC<any> = (props) => {
+  const params = useParams();
   // Сохраняем id из url в виде переменной
-  const id = props.match.params.id;
+  const id = params.id;
   // Запрашиваем хук, передавая значение id в качестве переменной
   const { loading, error, data } = useQuery(GET_NOTE, { variables: { id } });
   // Если данные загружаются, отображаем сообщение о загрузке

@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {
   AuthenticationError,
-  ForbiddenError,
+  ForbiddenError
 } = require('apollo-server-express');
 const gravatar = require('../util/gravatar');
 const mongoose = require('mongoose');
@@ -18,7 +18,7 @@ module.exports = {
     return await models.Note.create({
       content: args.content,
       // Ссылаемся на mongo id автора
-      author: mongoose.Types.ObjectId(user.id),
+      author: mongoose.Types.ObjectId(user.id)
     });
   },
   deleteNote: async (parent, { id }, { models, user }) => {
@@ -55,22 +55,22 @@ module.exports = {
     // Обновляем заметку в БД и возвращаем ее в обновленном виде
     return await models.Note.findOneAndUpdate(
       {
-        _id: id,
+        _id: id
       },
       {
         $set: {
-          content,
-        },
+          content
+        }
       },
       {
-        new: true,
+        new: true
       }
     );
   },
   signUp: async (parent, { username, email, password }, { models }) => {
-    // Нормализуем имейл
+    // Нормализуем email
     email = email.trim().toLowerCase();
-    // Хешируем пароль
+    // Хэшируем пароль
     const hashed = await bcrypt.hash(password, 10);
     // Создаем url gravatar-изображения
     const avatar = gravatar(email);
@@ -79,7 +79,7 @@ module.exports = {
         username,
         email,
         avatar,
-        password: hashed,
+        password: hashed
       });
       // Создаем и возвращаем json web token
       return jwt.sign({ id: user._id }, process.env.JWT_SECRET);
@@ -95,7 +95,7 @@ module.exports = {
       email = email.trim().toLowerCase();
     }
     const user = await models.User.findOne({
-      $or: [{ email }, { username }],
+      $or: [{ email }, { username }]
     });
     // Если пользователь не найден, выбрасываем ошибку аутентификации
     if (!user) {
@@ -107,7 +107,9 @@ module.exports = {
       throw new AuthenticationError('Error signing in');
     }
     // Создаем и возвращаем json web token
-    return jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    return jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '10m'
+    });
   },
   toggleFavorite: async (parent, { id }, { models, user }) => {
     // Если контекст пользователя не передан, выбрасываем ошибку
@@ -124,14 +126,14 @@ module.exports = {
         id,
         {
           $pull: {
-            favoritedBy: mongoose.Types.ObjectId(user.id),
+            favoritedBy: mongoose.Types.ObjectId(user.id)
           },
           $inc: {
-            favoriteCount: -1,
-          },
+            favoriteCount: -1
+          }
         },
         {
-          new: true,
+          new: true
         }
       );
     } else {
@@ -141,16 +143,16 @@ module.exports = {
         id,
         {
           $push: {
-            favoritedBy: mongoose.Types.ObjectId(user.id),
+            favoritedBy: mongoose.Types.ObjectId(user.id)
           },
           $inc: {
-            favoriteCount: 1,
-          },
+            favoriteCount: 1
+          }
         },
         {
-          new: true,
+          new: true
         }
       );
     }
-  },
+  }
 };

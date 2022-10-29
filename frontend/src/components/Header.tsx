@@ -1,4 +1,10 @@
+import { useQuery } from "@apollo/client";
 import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../img/logo.svg";
+import { FC } from "react";
+import ButtonAsLink from "./ButtonAsLink";
+import { IS_LOGGED_IN } from "../gql/query";
 
 const HeaderBar = styled.header`
   width: 100%;
@@ -16,12 +22,35 @@ const LogoText = styled.h1`
   padding: 0;
   display: inline;
 `;
+const UserState = styled.div`
+  margin-left: auto;
+`;
 
-const Header = () => {
+const Header: FC = () => {
+  const { data, client } = useQuery(IS_LOGGED_IN);
+  const navigate = useNavigate();
   return (
     <HeaderBar>
-      <img src={"https://flyclipart.com/thumb2/post-it-notes-reminder-sticky-note-icon-186938.png"} alt="Notedly Logo" height="40" />
-      <LogoText>Notedly</LogoText>
+      <img src={logo} alt="Notedly Logo" height="40" /> <LogoText>Notedly</LogoText>
+      {/* Если авторизован, отображаем ссылку logout, в противном
+        случае отображаем варианты sign in и sign up */}
+      <UserState>
+        {data.isLoggedIn ? (
+          <ButtonAsLink
+            onClick={() => {
+              localStorage.removeItem("token");
+              client.cache.writeQuery({ query: IS_LOGGED_IN, data: { isLoggedIn: false } });
+              navigate("/");
+            }}
+          >
+            LogOut
+          </ButtonAsLink>
+        ) : (
+          <p>
+            <Link to={"/signin"}>Sign In</Link> or <Link to={"/signup"}>Sign Up</Link>
+          </p>
+        )}
+      </UserState>
     </HeaderBar>
   );
 };

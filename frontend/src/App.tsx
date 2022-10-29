@@ -1,31 +1,56 @@
 import Pages from "./pages";
-// Импортируем библиотеки Apollo Client
-import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
-import { setContext } from "apollo-link-context";
+import { ApolloClient, ApolloLink, ApolloProvider, concat, HttpLink, InMemoryCache } from "@apollo/client";
 import GlobalStyle from "./components/GlobalStyle";
+import { Test } from "./test";
+import { IS_LOGGED_IN } from "./gql/query";
 
-// Настраиваем API URI и кэш
 const uri = process.env.API_URI || "http://localhost:4000/api";
-const httpLink = createHttpLink({ uri });
 const cache = new InMemoryCache();
-// Проверяем наличие токена и возвращаем заголовки в контекст
-const authLink = setContext((_, { headers }) => {
-  return {
+
+const httpLink = new HttpLink({ uri });
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+  // add the authorization to the headers
+  operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      authorization: localStorage.getItem("token") || "",
+      Authorization: localStorage.getItem("token") || null,
     },
-  };
-});
-// Настраиваем Apollo Client
-const client = new ApolloClient({
-  link: Object.assign(authLink, httpLink),
-  cache,
-  resolvers: {},
-  connectToDevTools: true,
+  }));
+
+  return forward(operation);
 });
 
+const client = new ApolloClient({
+  link: concat(authMiddleware, httpLink),
+  uri,
+  cache,
+  defaultOptions: {
+    watchQuery: {
+      nextFetchPolicy(currentFetchPolicy) {
+        if (currentFetchPolicy === "network-only" || currentFetchPolicy === "cache-and-network") {
+          return "cache-first";
+        }
+        return currentFetchPolicy;
+      },
+    },
+  },
+});
+
+export const queryLoggedIn = {
+  query: IS_LOGGED_IN,
+  data: {
+    isLoggedIn: !!localStorage.getItem("token"),
+  },
+};
+
+cache.writeQuery(queryLoggedIn);
+
+client.onResetStore(() => new Promise(() => cache.writeQuery({ ...queryLoggedIn })));
+
 function App() {
+  const test = new Test();
+  test.testCallback();
   return (
     <ApolloProvider client={client}>
       <GlobalStyle />

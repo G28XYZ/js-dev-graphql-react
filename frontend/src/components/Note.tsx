@@ -2,6 +2,9 @@ import { FC } from "react";
 import ReactMarkdown from "react-markdown";
 import { format, parseISO } from "date-fns";
 import styled from "styled-components";
+import NoteUser from "./NoteUser";
+import { useQuery } from "@apollo/client";
+import { IS_LOGGED_IN } from "../gql/query";
 // Ограничиваем расширение заметок до 800 пикселей
 const StyledNote = styled.article`
   max-width: 800px;
@@ -24,6 +27,8 @@ const UserActions = styled.div`
 `;
 
 const Note: FC<any> = ({ note }) => {
+  const { data } = useQuery(IS_LOGGED_IN);
+
   return (
     <StyledNote>
       <MetaData>
@@ -34,9 +39,15 @@ const Note: FC<any> = ({ note }) => {
           <em>by</em> {note.author.username} <br />
           {format(parseISO(note.createdAt), "MMM dd yyyy")}
         </MetaInfo>
-        <UserActions>
-          <em>Favorites:</em> {note.favoriteCount}
-        </UserActions>
+        {data.isLoggedIn ? (
+          <UserActions>
+            <NoteUser note={note} />
+          </UserActions>
+        ) : (
+          <UserActions>
+            <em>Favorites:</em> {note.favoriteCount}
+          </UserActions>
+        )}
       </MetaData>
       <ReactMarkdown children={note.content} />
     </StyledNote>

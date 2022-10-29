@@ -1,7 +1,9 @@
-import React, { FC, useEffect, useState } from "react";
-import styled from "styled-components";
-import Button from "../components/Button";
+import { FC, useEffect } from "react";
 import { useMutation, useApolloClient, gql } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
+
+import UserForm from "../components/UserForm";
+import { IS_LOGGED_IN } from "../gql/query";
 
 const SIGNUP_USER = gql`
   mutation signUp($email: String!, $username: String!, $password: String!) {
@@ -9,76 +11,39 @@ const SIGNUP_USER = gql`
   }
 `;
 
-const Wrapper = styled.div`
-  border: 1px solid #f5f4f0;
-  max-width: 500px;
-  padding: 1em;
-  margin: 0 auto;
-`;
-const Form = styled.form`
-  label,
-  input {
-    display: block;
-    line-height: 2em;
-  }
-  input {
-    width: 100%;
-    margin-bottom: 1em;
-  }
-`;
-// Добавляем props, передаваемый в компонент для дальнейшего использования
 const SignUp: FC<any> = (props) => {
+  const navigate = useNavigate();
   useEffect(() => {
-    // Обновляем заголовок документа
     document.title = "Sign Up — Notedly";
   });
-  // Устанавливаем состояние формы по умолчанию
-  const [values, setValues] = useState({});
-  // Обновляем состояние при вводе пользователем данных
-  const onChange = (event: any) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
 
-  // Apollo Client
-  const client = useApolloClient();
-  //Добавляем хук мутации
+  const client = useApolloClient() as any;
+
   const [signUp, { loading, error }] = useMutation(SIGNUP_USER, {
     onCompleted: (data) => {
+      console.log(data);
       // Сохраняем JWT в localStorage
       localStorage.setItem("token", data.signUp);
-      // Обновляем локальный кэш
-      client.wtiteData({ data: { isLoggedIn: true } });
+      // запись в локальный стейт isLoggedIn
+      client.cache.writeQuery({
+        query: IS_LOGGED_IN,
+        data: {
+          isLoggedIn: true,
+        },
+      });
       // Перенаправляем пользователя на домашнюю страницу
-      props.history.push("/");
+      navigate("/");
     },
   });
 
   return (
-    <Wrapper>
-      <h2>Sign Up</h2>
-      {/* Когда пользователь отправляет форму, передаем ее данные в мутацию */}
-      <Form
-        onSubmit={(event) => {
-          event.preventDefault();
-          signUp({
-            variables: {
-              ...values,
-            },
-          });
-        }}
-      >
-        <label htmlFor="username">Username:</label>
-        <input required type="text" name="username" placeholder="username" onChange={onChange} />
-        <label htmlFor="email">Email:</label>
-        <input required type="email" name="email" placeholder="Email" onChange={onChange} />
-        <label htmlFor="password">Password:</label>
-        <input required type="password" name="password" placeholder="Password" onChange={onChange} />
-        <Button type="submit">Submit</Button>
-      </Form>
-    </Wrapper>
+    <>
+      <UserForm action={signUp} formType="signup" />
+      {/* Если данные загружаются, отображаем сообщение о загрузке */}
+      {loading && <p>Loading...</p>}
+      {/* Если при загрузке произошел сбой, отображаем сообщение об ошибке */}
+      {error && <p>Error creating an account!</p>}
+    </>
   );
 };
 export default SignUp;
