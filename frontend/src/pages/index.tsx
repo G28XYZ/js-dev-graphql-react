@@ -8,7 +8,7 @@ import SignUp from "./signup";
 import SignIn from "./signin";
 import { useQuery } from "@apollo/client";
 import NewNote from "./new";
-import { GET_ME, IS_LOGGED_IN } from "../gql/query";
+import { IS_LOGGED_IN } from "../gql/query";
 import EditNote from "./edit";
 import React from "react";
 

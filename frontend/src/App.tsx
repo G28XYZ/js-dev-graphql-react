@@ -4,8 +4,8 @@ import GlobalStyle from "./components/GlobalStyle";
 import { Test } from "./test";
 import { IS_LOGGED_IN } from "./gql/query";
 
-// const uri = process.env.API_URI || "https://js-dev-graphql-react.vercel.app/api";
-const uri = process.env.API_URI || "http://localhost:4000/api";
+const uri = process.env.API_URI || "https://js-dev-graphql-react.vercel.app/api";
+// const uri = process.env.API_URI || "http://localhost:4000/api";
 const cache = new InMemoryCache();
 
 const httpLink = new HttpLink({ uri });
