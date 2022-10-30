@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "REACT_APP_GIT_HASH=\"$(git rev-parse HEAD)\" react-scripts start",
+    "start": "react-scripts start",
     "build-react": "react-scripts build",
     "build": "esbuild src/index.tsx --bundle --minify --outfile=out.js",
     "test": "react-scripts test",
