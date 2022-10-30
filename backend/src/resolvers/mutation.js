@@ -84,7 +84,7 @@ module.exports = {
       // Создаем и возвращаем json web token
       return jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       // Если при регистрации возникла проблема, выбрасываем ошибку
       throw new Error('Error creating account');
     }
