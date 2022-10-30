@@ -1,12 +1,12 @@
 // Импортируем необходимые библиотеки
+import React from "react";
 import { useQuery } from "@apollo/client";
 // import ReactMarkdown from "react-markdown";
-
 import Button from "../components/Button";
 import NoteFeed from "../components/NoteFeed";
 import { GET_NOTES } from "../gql/query";
 
-const Home = () => {
+const Home: React.FC = () => {
   // Хук запроса
   const { data, loading, error, fetchMore } = useQuery(GET_NOTES);
   if (loading) return <p>loading...</p>;

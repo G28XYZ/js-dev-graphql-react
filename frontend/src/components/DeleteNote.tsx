@@ -5,14 +5,14 @@ import { DELETE_NOTE } from "../gql/mutation";
 import { GET_MY_NOTES, GET_NOTES } from "../gql/query";
 import { useNavigate } from "react-router-dom";
 
-const DeleteNote = (props: any) => {
+const DeleteNote: React.FC<any> = (props) => {
   const navigate = useNavigate();
   const [deleteNote] = useMutation(DELETE_NOTE, {
     variables: {
       id: props.noteId,
     },
     refetchQueries: [GET_MY_NOTES, GET_NOTES],
-    onCompleted: (data) => {
+    onCompleted: () => {
       navigate("/mynotes");
     },
   });

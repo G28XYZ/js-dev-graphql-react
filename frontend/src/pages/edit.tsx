@@ -5,7 +5,7 @@ import NoteForm from "../components/NoteForm";
 import { EDIT_NOTE } from "../gql/mutation";
 import { useNavigate, useParams } from "react-router-dom";
 
-const EditNote = () => {
+const EditNote: React.FC = () => {
   const navigate = useNavigate();
   const params = useParams();
   const id = params.id;

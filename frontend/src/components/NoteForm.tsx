@@ -11,7 +11,7 @@ const TextArea = styled.textarea`
   width: 100%;
   height: 90%;
 `;
-const NoteForm = (props: any) => {
+const NoteForm: React.FC<any> = (props) => {
   // Устанавливаем состояние формы по умолчанию
   const [value, setValue] = useState({ content: props.content || "" });
   // Обновляем это состояние при вводе пользователем данных

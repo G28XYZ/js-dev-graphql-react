@@ -3,9 +3,8 @@ import { useQuery } from "@apollo/client";
 import NoteFeed from "../components/NoteFeed";
 import { GET_MY_NOTES } from "../gql/query";
 
-const MyNotes = () => {
+const MyNotes: React.FC = () => {
   useEffect(() => {
-    // Обновляем заголовок документа
     document.title = "My Notes — Notedly";
   });
   const { loading, error, data } = useQuery(GET_MY_NOTES);

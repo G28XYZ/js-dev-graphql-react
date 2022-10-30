@@ -4,10 +4,9 @@ const db = require('./src/db');
 const { ApolloServer } = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 const helmet = require('helmet');
-const cors = require('cors');
 const depthLimit = require('graphql-depth-limit');
 const { createComplexityLimitRule } = require('graphql-validation-complexity');
-
+const cors = require('./middlewares/cors');
 const models = require('./src/models');
 const typeDefs = require('./src/schema');
 const resolvers = require('./src/resolvers');
@@ -17,12 +16,10 @@ const port = process.env.PORT;
 const DB_HOST = process.env.DB_HOST;
 
 const app = express();
+
 db.connect(DB_HOST);
-// Добавляем промежуточное ПО в начало стека, после const app = express()
 app.use(helmet());
-// добавляем промежуточное ПО после app.use(helmet());
 app.use(cors());
-// Получаем информацию пользователя из JWT
 const getUser = token => {
   if (token) {
     try {

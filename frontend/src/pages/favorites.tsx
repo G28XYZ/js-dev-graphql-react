@@ -2,12 +2,11 @@ import { useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
 import NoteFeed from "../components/NoteFeed";
 import { GET_MY_FAVORITES } from "../gql/query";
-const Favorites = () => {
+
+const Favorites: React.FC = () => {
   useEffect(() => {
-    // Обновляем заголовок документа
     document.title = "Favorites — Notedly";
   });
-
   const { loading, error, data } = useQuery(GET_MY_FAVORITES);
   if (loading) return <>"Loading..."</>;
   if (error) return <>`Error! ${error.message}`</>;

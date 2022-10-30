@@ -10,7 +10,7 @@ export const SIGNIN_USER = gql`
   }
 `;
 
-const SignIn: React.FC<any> = (props) => {
+const SignIn: React.FC<any> = () => {
   const { data, client } = useQuery(IS_LOGGED_IN);
   const navigate = useNavigate();
 

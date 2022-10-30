@@ -1,6 +1,7 @@
+import React from "react";
 import styled from "styled-components";
 
-const ButtonAsLink = styled.button`
+const ButtonAsLink: React.FC<any> = styled.button`
   background: none;
   color: #0077cc;
   border: none;

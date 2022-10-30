@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "./Button";
+
 const Wrapper = styled.div`
   border: 1px solid #f5f4f0;
   max-width: 500px;
@@ -19,7 +20,7 @@ const Form = styled.form`
   }
 `;
 
-const UserForm = (props: any) => {
+const UserForm: React.FC<any> = (props) => {
   // Устанавливаем состояние формы по умолчанию
   const [values, setValues] = useState({});
   // Обновляем состояние, когда пользователь вводит данные в форму

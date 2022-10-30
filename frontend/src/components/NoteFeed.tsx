@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import styled from "styled-components";
 import Note from "./Note";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ const NoteWrapper = styled.div`
   border-bottom: 1px solid #f5f4f0;
 `;
 
-const NoteFeed: FC<any> = ({ notes }) => {
+const NoteFeed: React.FC<any> = ({ notes }) => {
   return (
     <div>
       {notes.map((note: any) => (

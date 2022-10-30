@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "REACT_APP_GIT_HASH=\"$(git rev-parse HEAD)\" react-scripts start",
+    "build-react": "react-scripts build",
+    "build": "esbuild src/index.tsx --bundle --minify --outfile=out.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -32,6 +33,7 @@
     "apollo-link-context": "^1.0.20",
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
+    "esbuild": "^0.15.12",
     "graphql": "^16.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -42,6 +44,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.11.7",
-    "@types/react": "^18.0.24"
+    "@types/react": "^18.0.24",
+    "@types/react-dom": "^18.0.8"
   }
 }

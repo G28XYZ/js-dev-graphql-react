@@ -1,7 +1,5 @@
 import { BrowserRouter as Router, Navigate, Outlet, Route, Routes } from "react-router-dom";
-
 import Layout from "../components/Layout";
-
 import Home from "./home";
 import MyNotes from "./mynotes";
 import Favorites from "./favorites";
@@ -10,24 +8,27 @@ import SignUp from "./signup";
 import SignIn from "./signin";
 import { useQuery } from "@apollo/client";
 import NewNote from "./new";
-import { IS_LOGGED_IN } from "../gql/query";
+import { GET_ME, IS_LOGGED_IN } from "../gql/query";
 import EditNote from "./edit";
+import React from "react";
 
-const ProtectedRoute = () => {
+const ProtectedRoute: React.FC = () => {
   const { loading, error, data } = useQuery(IS_LOGGED_IN);
+  const { data: userData } = useQuery(GET_ME);
+  if (userData === undefined) localStorage.removeItem("token");
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
   return data.isLoggedIn === true ? <Outlet /> : <Navigate to={"/signin"} />;
 };
 
-const PrivateRoute = () => {
+const PrivateRoute: React.FC = () => {
   const { loading, error, data } = useQuery(IS_LOGGED_IN);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
   return !data.isLoggedIn === true ? <Outlet /> : <Navigate to={"/"} />;
 };
 
-const Pages = () => {
+const Pages: React.FC = () => {
   return (
     <Router>
       <Routes>
