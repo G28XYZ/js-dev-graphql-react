@@ -18,8 +18,11 @@ const DB_HOST = process.env.DB_HOST;
 const app = express();
 
 db.connect(DB_HOST);
+
 app.use(helmet());
-app.use(cors());
+
+app.use(cors);
+
 const getUser = token => {
   if (token) {
     try {
@@ -51,6 +54,7 @@ const server = new ApolloServer({
 
 // Применяем промежуточное ПО Apollo GraphQL и указываем путь к /api
 server.applyMiddleware({ app, path: '/api' });
+
 app.listen({ port }, () =>
   console.log(
     `GraphQL Server running at http://localhost:${port}${server.graphqlPath}`

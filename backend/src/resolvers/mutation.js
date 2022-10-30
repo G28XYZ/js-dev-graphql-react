@@ -5,7 +5,7 @@ const {
   AuthenticationError,
   ForbiddenError
 } = require('apollo-server-express');
-const gravatar = require('../util/gravatar');
+const gravatar = require('../utils/gravatar');
 const mongoose = require('mongoose');
 
 module.exports = {
