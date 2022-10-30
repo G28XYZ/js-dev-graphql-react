@@ -1,13 +1,11 @@
+import React from "react";
 import Pages from "./pages";
 import { ApolloClient, ApolloLink, ApolloProvider, concat, HttpLink, InMemoryCache } from "@apollo/client";
 import GlobalStyle from "./components/GlobalStyle";
-import { Test } from "./test";
 import { IS_LOGGED_IN } from "./gql/query";
 
-const uri = process.env.API_URI;
-// const uri = process.env.API_URI || "http://localhost:4000/api";
+const uri = "https://js-dev-graphql-react.vercel.app/api";
 const cache = new InMemoryCache();
-console.log(uri);
 const httpLink = new HttpLink({ uri });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
@@ -49,15 +47,13 @@ cache.writeQuery(queryLoggedIn);
 
 client.onResetStore(() => new Promise(() => cache.writeQuery({ ...queryLoggedIn })));
 
-function App() {
-  const test = new Test();
-  test.testCallback();
+const App: React.FC = () => {
   return (
     <ApolloProvider client={client}>
       <GlobalStyle />
       <Pages />
     </ApolloProvider>
   );
-}
+};
 
 export default App;
