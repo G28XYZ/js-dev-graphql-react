@@ -14,8 +14,6 @@ import React from "react";
 
 const ProtectedRoute: React.FC = () => {
   const { loading, error, data } = useQuery(IS_LOGGED_IN);
-  const { data: userData } = useQuery(GET_ME);
-  if (userData === undefined) localStorage.removeItem("token");
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
   return data.isLoggedIn === true ? <Outlet /> : <Navigate to={"/signin"} />;

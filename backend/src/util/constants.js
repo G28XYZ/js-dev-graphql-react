@@ -4,7 +4,8 @@ const allowedCors = [
   'localhost:3000',
   'http://localhost:3000',
   'http://127.0.0.1:3000',
-  /(https|http)?:\/\/(?:www\.|(?!www))front-movies.nomoredomains.xyz\/[a-z]+\/|[a-z]+\/|[a-z]+(\/|)/
+  /(https|http)?:\/\/(?:www\.|(?!www))front-movies.nomoredomains.xyz\/[a-z]+\/|[a-z]+\/|[a-z]+(\/|)/,
+  /(https|http)?:\/\/(?:www\.|(?!www))effervescent-halva-f02eee.netlify.app\/[a-z]+\/|[a-z]+\/|[a-z]+(\/|)/
 ];
 
 const errorMessages = {
