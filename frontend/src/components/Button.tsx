@@ -1,6 +1,7 @@
+import React from "react";
 import styled from "styled-components";
 
-const Button = styled.button`
+const Button: React.FC<any> = styled.button`
   display: block;
   padding: 10px;
   border: none;

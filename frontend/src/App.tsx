@@ -1,28 +1,62 @@
+import React from "react";
 import Pages from "./pages";
-// Импортируем библиотеки Apollo Client
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloClient, ApolloLink, ApolloProvider, concat, HttpLink, InMemoryCache } from "@apollo/client";
 import GlobalStyle from "./components/GlobalStyle";
+import { IS_LOGGED_IN } from "./gql/query";
 
 console.log("test");
 
-// Настраиваем API URI и кэш
-const uri = process.env.API_URI || "http://localhost:4000/api";
+// const uri = "https://js-dev-graphql-react.vercel.app/api";
+const uri = "http://localhost:4000/api";
 const cache = new InMemoryCache();
-console.log(uri);
-// Настраиваем Apollo Client
-const client = new ApolloClient({
-  uri,
-  cache,
-  connectToDevTools: true,
+const httpLink = new HttpLink({ uri });
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+  // add the authorization to the headers
+  operation.setContext(({ headers = {} }) => ({
+    headers: {
+      ...headers,
+      Authorization: localStorage.getItem("token") || null,
+    },
+  }));
+
+  return forward(operation);
 });
 
-function App() {
+const client = new ApolloClient({
+  link: concat(authMiddleware, httpLink),
+  uri,
+  cache,
+  defaultOptions: {
+    watchQuery: {
+      nextFetchPolicy(currentFetchPolicy) {
+        if (currentFetchPolicy === "network-only" || currentFetchPolicy === "cache-and-network") {
+          return "cache-first";
+        }
+        return currentFetchPolicy;
+      },
+    },
+  },
+});
+
+export const queryLoggedIn = {
+  query: IS_LOGGED_IN,
+  data: {
+    isLoggedIn: !!localStorage.getItem("token"),
+  },
+};
+
+cache.writeQuery(queryLoggedIn);
+
+client.onResetStore(() => new Promise(() => cache.writeQuery({ ...queryLoggedIn })));
+
+const App: React.FC = () => {
   return (
     <ApolloProvider client={client}>
       <GlobalStyle />
       <Pages />
     </ApolloProvider>
   );
-}
+};
 
 export default App;

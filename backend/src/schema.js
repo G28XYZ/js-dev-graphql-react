@@ -18,6 +18,7 @@ module.exports = gql`
     avatar: String
     notes: [Note!]!
     favorites: [Note!]!
+    locale: String!
   }
   type Query {
     notes: [Note!]!
@@ -28,6 +29,7 @@ module.exports = gql`
     noteFeed(cursor: String): NoteFeed
   }
   type Mutation {
+    setLocale(locale: String!): User!
     newNote(content: String!): Note!
     updateNote(id: ID!, content: String!): Note!
     deleteNote(id: ID!): Boolean!

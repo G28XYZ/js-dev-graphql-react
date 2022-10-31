@@ -1,7 +1,7 @@
 // Затребуем библиотеку mongoose
 const mongoose = require('mongoose');
 module.exports = {
-  connect: (DB_HOST) => {
+  connect: DB_HOST => {
     // Используем обновленный парсер строки URL драйвера Mongo
     mongoose.set('useNewUrlParser', true);
     // Поставим findOneAndUpdate () вместо findAndModify ()
@@ -13,8 +13,8 @@ module.exports = {
     // Подключаемся к БД
     mongoose.connect(DB_HOST);
     // Выводим ошибку при неуспешном подключении
-    mongoose.connection.on('error', (err) => {
-      console.error(err);
+    mongoose.connection.on('error', err => {
+      // console.error(err);
       console.log(
         'MongoDB connection error. Please make sure MongoDB is running.'
       );
@@ -23,5 +23,5 @@ module.exports = {
   },
   close: () => {
     mongoose.connection.close();
-  },
+  }
 };
