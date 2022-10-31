@@ -8,6 +8,8 @@ const cors = require('cors');
 const depthLimit = require('graphql-depth-limit');
 const { createComplexityLimitRule } = require('graphql-validation-complexity');
 
+console.log('object');
+
 const models = require('./src/models');
 const typeDefs = require('./src/schema');
 const resolvers = require('./src/resolvers');
@@ -23,7 +25,7 @@ app.use(helmet());
 // добавляем промежуточное ПО после app.use(helmet());
 app.use(cors());
 // Получаем информацию пользователя из JWT
-const getUser = token => {
+const getUser = (token) => {
   if (token) {
     try {
       // Возвращаем информацию пользователя из токена
@@ -49,7 +51,7 @@ const server = new ApolloServer({
     // console.log(user);
     // Добавляем модели БД и пользователя в контекст
     return { models, user };
-  }
+  },
 });
 
 // Применяем промежуточное ПО Apollo GraphQL и указываем путь к /api

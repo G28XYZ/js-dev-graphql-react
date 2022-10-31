@@ -3,6 +3,8 @@ import Pages from "./pages";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import GlobalStyle from "./components/GlobalStyle";
 
+console.log("test");
+
 // Настраиваем API URI и кэш
 const uri = process.env.API_URI || "http://localhost:4000/api";
 const cache = new InMemoryCache();
