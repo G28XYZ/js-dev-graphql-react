@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import Note from "../components/Note";
+import { Note } from "../components/note";
 import { GET_NOTE } from "../gql/query";
 import { useParams } from "react-router-dom";
 

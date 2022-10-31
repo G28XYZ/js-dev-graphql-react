@@ -1,0 +1,15 @@
+export const note = {
+  remove: "Remove",
+  delete: "Delete",
+  favorite: "Favorite",
+  emptyNotes: "No notes yet",
+  emptyFavorites: "No favorites yet",
+  textAreaPlaceholder: "Note content",
+  saveButton: "Save",
+  add: "Add",
+  by: "by",
+  note: "Note",
+  removeFavorite: "Remove favorite",
+  addFavorite: "Add favorites",
+  link: "Link",
+};

@@ -1,6 +1,8 @@
+import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import styled from "styled-components";
-import Button from "./Button";
+import { LOCALE } from "../../hooks/useTranslate";
+import Button from "../Button";
 const Wrapper = styled.div`
   height: 100%;
 `;
@@ -12,9 +14,10 @@ const TextArea = styled.textarea`
   height: 90%;
 `;
 const NoteForm: React.FC<any> = (props) => {
-  // Устанавливаем состояние формы по умолчанию
+  const {
+    data: { lang },
+  } = useQuery(LOCALE);
   const [value, setValue] = useState({ content: props.content || "" });
-  // Обновляем это состояние при вводе пользователем данных
   const onChange = (event: any) => {
     setValue({
       ...value,
@@ -33,8 +36,8 @@ const NoteForm: React.FC<any> = (props) => {
           });
         }}
       >
-        <TextArea required name="content" placeholder="Note content" value={value.content} onChange={onChange} />
-        <Button type="submit">Save</Button>
+        <TextArea required name="content" placeholder={lang.note.textAreaPlaceholder} value={value.content} onChange={onChange} />
+        <Button type="submit">{lang.note.saveButton}</Button>
       </Form>
     </Wrapper>
   );

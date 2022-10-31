@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
-import ButtonAsLink from "./ButtonAsLink";
-import { TOGGLE_FAVORITE } from "../gql/mutation";
-import { GET_MY_FAVORITES } from "../gql/query";
+import { useMutation, useQuery } from "@apollo/client";
+import ButtonAsLink from "../ButtonAsLink";
+import { TOGGLE_FAVORITE } from "../../gql/mutation";
+import { GET_MY_FAVORITES } from "../../gql/query";
+import { LOCALE } from "../../hooks/useTranslate";
 
 const FavoriteNote: React.FC<any> = (props) => {
   const [count, setCount] = useState(props.favoriteCount);
@@ -13,6 +14,9 @@ const FavoriteNote: React.FC<any> = (props) => {
     },
     refetchQueries: [{ query: GET_MY_FAVORITES }],
   });
+  const {
+    data: { lang },
+  } = useQuery(LOCALE);
   return (
     <>
       {favorited ? (
@@ -23,7 +27,7 @@ const FavoriteNote: React.FC<any> = (props) => {
             setCount(count - 1);
           }}
         >
-          Remove Favorite
+          {lang.note.removeFavorite}
         </ButtonAsLink>
       ) : (
         <ButtonAsLink
@@ -33,7 +37,7 @@ const FavoriteNote: React.FC<any> = (props) => {
             setCount(count + 1);
           }}
         >
-          Add Favorite
+          {lang.note.addFavorite}
         </ButtonAsLink>
       )}
       : {count}

@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../img/logo.svg";
-import ButtonAsLink from "./ButtonAsLink";
-import { IS_LOGGED_IN } from "../gql/query";
-import { useCheckToken } from "../hooks/useCheckToken";
-import Locale from "./Locale";
+import logo from "../../img/logo.svg";
+import ButtonAsLink from "../ButtonAsLink";
+import { IS_LOGGED_IN } from "../../gql/query";
+import { useCheckToken } from "../../hooks/useCheckToken";
+import Locale from "../Locale";
+import { LOCALE } from "../../hooks/useTranslate";
 
 const HeaderBar = styled.header`
   width: 100%;
@@ -32,8 +33,12 @@ const UserState = styled.div`
 const Header: React.FC = () => {
   const { data, client } = useQuery(IS_LOGGED_IN);
   const navigate = useNavigate();
+  const {
+    data: { lang },
+  } = useQuery(LOCALE);
 
   const { token } = useCheckToken();
+
   useEffect(() => {
     if (token === null) navigate("/signin");
   }, [token, navigate]);
@@ -51,7 +56,7 @@ const Header: React.FC = () => {
               navigate("/");
             }}
           >
-            LogOut
+            {lang.header.logout}
           </ButtonAsLink>
         ) : (
           <p>

@@ -3,7 +3,7 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 // import ReactMarkdown from "react-markdown";
 import Button from "../components/Button";
-import NoteFeed from "../components/NoteFeed";
+import NoteFeed from "../components/note/NoteFeed";
 import { GET_NOTES } from "../gql/query";
 
 const Home: React.FC = () => {

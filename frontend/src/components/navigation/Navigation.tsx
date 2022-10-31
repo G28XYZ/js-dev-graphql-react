@@ -1,6 +1,8 @@
+import { useQuery } from "@apollo/client";
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { LOCALE } from "../../hooks/useTranslate";
 
 const Nav = styled.nav`
   padding: 1em;
@@ -38,20 +40,24 @@ const NavList = styled.ul`
 `;
 
 const Navigation: React.FC = () => {
+  const {
+    data: { lang },
+  } = useQuery(LOCALE);
+
   return (
     <Nav>
       <NavList>
         <li>
-          <Link to="/">🏠 Home</Link>
+          <Link to="/">🏠 {lang.navigation.home}</Link>
         </li>
         <li>
-          <Link to="/mynotes">📝 My Notes</Link>
+          <Link to="/mynotes">📝 {lang.navigation.myNotes}</Link>
         </li>
         <li>
-          <Link to="/favorites">⭐ Favorites</Link>
+          <Link to="/favorites">⭐ {lang.navigation.favorites}</Link>
         </li>
         <li>
-          <Link to="/new">📃 New</Link>
+          <Link to="/new">📃 {lang.navigation.new}</Link>
         </li>
       </NavList>
     </Nav>

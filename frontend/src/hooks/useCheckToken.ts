@@ -11,5 +11,5 @@ export const useCheckToken = () => {
       }
     },
   });
-  return (() => ({ token }))();
+  return { token };
 };

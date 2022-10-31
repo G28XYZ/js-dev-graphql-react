@@ -4,13 +4,13 @@ import Home from "./home";
 import MyNotes from "./mynotes";
 import Favorites from "./favorites";
 import NotePage from "./note";
-import SignUp from "./signup";
-import SignIn from "./signin";
+import SignUp from "./auth/signup";
+import SignIn from "./auth/signin";
 import { useQuery } from "@apollo/client";
 import NewNote from "./new";
-import { GET_ME, IS_LOGGED_IN } from "../gql/query";
+import { IS_LOGGED_IN } from "../gql/query";
 import EditNote from "./edit";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const ProtectedRoute: React.FC = () => {
   const { loading, error, data } = useQuery(IS_LOGGED_IN);

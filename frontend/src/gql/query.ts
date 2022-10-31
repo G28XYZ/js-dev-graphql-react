@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 export const GET_LOCALE = gql`
   query me {
     me {
+      id
       locale
     }
   }

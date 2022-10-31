@@ -2,8 +2,8 @@ import React, { ReactNode } from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
-import Header from "./Header";
-import Navigation from "./Navigation";
+import Header from "./header/Header";
+import Navigation from "./navigation/Navigation";
 
 export interface LayoutProps {
   children?: ReactNode;
@@ -52,4 +52,5 @@ const Layout: React.FC<LayoutProps> = () => {
     </>
   );
 };
+
 export default Layout;

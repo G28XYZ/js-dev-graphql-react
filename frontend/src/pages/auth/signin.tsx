@@ -1,8 +1,8 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import UserForm from "../components/UserForm";
-import { IS_LOGGED_IN } from "../gql/query";
+import UserForm from "../../components/UserForm";
+import { IS_LOGGED_IN } from "../../gql/query";
 
 export const SIGNIN_USER = gql`
   mutation signIn($email: String, $password: String!) {

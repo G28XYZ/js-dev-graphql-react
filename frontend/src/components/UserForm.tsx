@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useTranslate } from "../hooks/useTranslate";
 import Button from "./Button";
 
 const Wrapper = styled.div`
@@ -8,6 +10,7 @@ const Wrapper = styled.div`
   padding: 1em;
   margin: 0 auto;
 `;
+
 const Form = styled.form`
   label,
   input {
@@ -20,10 +23,16 @@ const Form = styled.form`
   }
 `;
 
+const Submit = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+
 const UserForm: React.FC<any> = (props) => {
-  // Устанавливаем состояние формы по умолчанию
+  const { lang } = useTranslate();
+
   const [values, setValues] = useState({});
-  // Обновляем состояние, когда пользователь вводит данные в форму
   const onChange = (event: any) => {
     setValues({
       ...values,
@@ -32,12 +41,7 @@ const UserForm: React.FC<any> = (props) => {
   };
   return (
     <Wrapper>
-      {/* Отображаем соответствующий заголовок формы */}
-      {props.formType === "signup" ? (
-        <h2>Sign Up</h2>
-      ) : (
-        <h2>Sign In</h2>
-      )} {/* Выполняем мутацию, когда пользователь отправляет форму */}{" "}
+      {props.formType === "signup" ? <h2>{lang.auth.register}</h2> : <h2>{lang.auth.signIn}</h2>}
       <Form
         onSubmit={(e) => {
           e.preventDefault();
@@ -49,16 +53,27 @@ const UserForm: React.FC<any> = (props) => {
         }}
       >
         {props.formType === "signup" && (
-          <React.Fragment>
-            <label htmlFor="username">Username:</label>
-            <input required type="text" id="username" name="username" placeholder="username" onChange={onChange} />
-          </React.Fragment>
+          <>
+            <label htmlFor="username">{lang.auth.username}:</label>
+            <input required type="text" id="username" name="username" placeholder={lang.auth.username} onChange={onChange} />
+          </>
         )}
-        <label htmlFor="email">Email:</label>
-        <input required type="email" id="email" name="email" placeholder="Email" onChange={onChange} />
-        <label htmlFor="password">Password:</label>
-        <input required type="password" id="password" name="password" placeholder="Password" onChange={onChange} />
-        <Button type="submit">Submit</Button>
+        <label htmlFor="email">{lang.auth.email}:</label>
+        <input required type="email" id="email" name="email" placeholder={lang.auth.email} onChange={onChange} />
+        <label htmlFor="password">{lang.auth.password}:</label>
+        <input required type="password" id="password" name="password" placeholder={lang.auth.password} onChange={onChange} />
+        <Submit>
+          <Button type="submit">{lang.auth.submit}</Button>
+          {props.formType === "signup" ? (
+            <div>
+              {lang.auth.isRegistered} <Link to={"/signin"}>{lang.auth.signIn}</Link>
+            </div>
+          ) : (
+            <div>
+              {lang.auth.notRegistered} <Link to={"/signup"}>{lang.auth.register}</Link>
+            </div>
+          )}
+        </Submit>
       </Form>
     </Wrapper>
   );
