@@ -11,7 +11,7 @@ const SIGNUP_USER = gql`
   }
 `;
 
-const SignUp: FC<any> = (props) => {
+const SignUp: FC<any> = () => {
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "Sign Up — Notedly";
@@ -21,17 +21,13 @@ const SignUp: FC<any> = (props) => {
 
   const [signUp, { loading, error }] = useMutation(SIGNUP_USER, {
     onCompleted: (data) => {
-      console.log(data);
-      // Сохраняем JWT в localStorage
       localStorage.setItem("token", data.signUp);
-      // запись в локальный стейт isLoggedIn
       client.cache.writeQuery({
         query: IS_LOGGED_IN,
         data: {
           isLoggedIn: true,
         },
       });
-      // Перенаправляем пользователя на домашнюю страницу
       navigate("/");
     },
   });
@@ -39,9 +35,7 @@ const SignUp: FC<any> = (props) => {
   return (
     <>
       <UserForm action={signUp} formType="signup" />
-      {/* Если данные загружаются, отображаем сообщение о загрузке */}
       {loading && <p>Loading...</p>}
-      {/* Если при загрузке произошел сбой, отображаем сообщение об ошибке */}
       {error && <p>Error creating an account!</p>}
     </>
   );

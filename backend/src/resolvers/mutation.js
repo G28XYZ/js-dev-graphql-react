@@ -9,6 +9,24 @@ const gravatar = require('../utils/gravatar');
 const mongoose = require('mongoose');
 
 module.exports = {
+  setLocale: async (parent, { locale }, { models, user }) => {
+    if (!user) {
+      throw new AuthenticationError('You must be signed in to update a note');
+    }
+    return await models.User.findOneAndUpdate(
+      {
+        _id: user.id
+      },
+      {
+        $set: {
+          locale
+        }
+      },
+      {
+        new: true
+      }
+    );
+  },
   // Добавляем контекст пользователя
   newNote: async (parent, args, { models, user }) => {
     // Если в контексте нет пользователя, выбрасываем AuthenticationError

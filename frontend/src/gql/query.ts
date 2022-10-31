@@ -1,5 +1,13 @@
 import { gql } from "@apollo/client";
 
+export const GET_LOCALE = gql`
+  query me {
+    me {
+      locale
+    }
+  }
+`;
+
 export const GET_ME = gql`
   query me {
     me {

@@ -20,23 +20,19 @@ const SignIn: React.FC<any> = () => {
       client.cache.writeQuery({ query: IS_LOGGED_IN, data: { isLoggedIn: true } });
       navigate("/");
     },
-    // refetchQueries: [IS_LOGGED_IN],
     onQueryUpdated(observableQuery) {
       return observableQuery.refetch();
     },
   });
 
   useEffect(() => {
-    // Обновляем заголовок документа
     document.title = "Sign In — Notedly";
     if (data.isLoggedIn) navigate("/");
   });
   return (
     <>
       <UserForm action={signIn} formType="signIn" />
-      {/* Если данные загружаются, отображаем сообщение о загрузке */}
       {loading && <p>Loading...</p>}
-      {/* Если при загрузке произошел сбой, отображаем сообщение об ошибке */}
       {error && <p>Error signing in!</p>}
     </>
   );

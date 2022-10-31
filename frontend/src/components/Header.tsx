@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-// import logo from "../img/logo.svg";
+import logo from "../img/logo.svg";
 import ButtonAsLink from "./ButtonAsLink";
 import { IS_LOGGED_IN } from "../gql/query";
+import { useCheckToken } from "../hooks/useCheckToken";
+import Locale from "./Locale";
 
 const HeaderBar = styled.header`
   width: 100%;
@@ -19,6 +21,7 @@ const HeaderBar = styled.header`
 `;
 const LogoText = styled.h1`
   margin: 0;
+  margin-right: 10px;
   padding: 0;
   display: inline;
 `;
@@ -29,11 +32,16 @@ const UserState = styled.div`
 const Header: React.FC = () => {
   const { data, client } = useQuery(IS_LOGGED_IN);
   const navigate = useNavigate();
+
+  const { token } = useCheckToken();
+  useEffect(() => {
+    if (token === null) navigate("/signin");
+  }, [token, navigate]);
+
   return (
     <HeaderBar>
-      <img src={"logo"} alt="Notedly Logo" height="40" /> <LogoText>Notedly</LogoText>
-      {/* Если авторизован, отображаем ссылку logout, в противном
-        случае отображаем варианты sign in и sign up */}
+      <img src={logo} alt="Notedly Logo" height="40" /> <LogoText>Notedly</LogoText>
+      <Locale />
       <UserState>
         {data.isLoggedIn ? (
           <ButtonAsLink

@@ -11,7 +11,6 @@ const Home: React.FC = () => {
   const { data, loading, error, fetchMore } = useQuery(GET_NOTES);
   if (loading) return <p>loading...</p>;
   if (error) return <p>Error!</p>;
-  console.log(data);
   return (
     <>
       <NoteFeed notes={data.noteFeed.notes} />
