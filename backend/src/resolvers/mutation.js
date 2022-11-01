@@ -126,7 +126,7 @@ module.exports = {
     }
     // Создаем и возвращаем json web token
     return jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '10m'
+      expiresIn: 5
     });
   },
   toggleFavorite: async (parent, { id }, { models, user }) => {
