@@ -31,13 +31,12 @@ const UserState = styled.div`
 `;
 
 const Header: React.FC = () => {
+  const { token } = useCheckToken();
   const { data, client } = useQuery(IS_LOGGED_IN);
   const navigate = useNavigate();
   const {
     data: { lang },
   } = useQuery(LOCALE);
-
-  const { token } = useCheckToken();
 
   useEffect(() => {
     if (token === null) navigate("/signin");

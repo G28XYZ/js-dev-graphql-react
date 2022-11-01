@@ -23,9 +23,9 @@ db.connect(DB_HOST);
 
 app.use(helmet());
 // добавляем промежуточное ПО после app.use(helmet());
-app.use(cors());
+app.use(cors);
 // Получаем информацию пользователя из JWT
-const getUser = (token) => {
+const getUser = token => {
   if (token) {
     try {
       // Возвращаем информацию пользователя из токена
@@ -51,7 +51,7 @@ const server = new ApolloServer({
     // console.log(user);
     // Добавляем модели БД и пользователя в контекст
     return { models, user };
-  },
+  }
 });
 
 // Применяем промежуточное ПО Apollo GraphQL и указываем путь к /api

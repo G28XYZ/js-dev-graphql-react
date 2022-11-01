@@ -3,6 +3,7 @@ import Pages from "./pages";
 import { ApolloClient, ApolloLink, ApolloProvider, concat, HttpLink, InMemoryCache } from "@apollo/client";
 import GlobalStyle from "./components/GlobalStyle";
 import { IS_LOGGED_IN } from "./gql/query";
+import { LOCALE, localize } from "./hooks/useTranslate";
 
 console.log("test");
 
@@ -47,6 +48,7 @@ export const queryLoggedIn = {
 };
 
 cache.writeQuery(queryLoggedIn);
+cache.writeQuery({ query: LOCALE, data: { lang: localize.ru } });
 
 client.onResetStore(() => new Promise(() => cache.writeQuery({ ...queryLoggedIn })));
 

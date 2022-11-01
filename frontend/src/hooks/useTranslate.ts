@@ -4,7 +4,7 @@ import { SET_LOCALE } from "../gql/mutation";
 import { GET_LOCALE } from "../gql/query";
 import { en, ru } from "../locale";
 
-const localize: Record<string, any> = {
+export const localize: Record<string, any> = {
   en,
   ru,
 };
