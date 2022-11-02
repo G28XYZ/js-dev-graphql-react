@@ -3,6 +3,8 @@ import { useMutation } from "@apollo/client";
 import NoteForm from "../components/note/NoteForm";
 import { GET_MY_NOTES, GET_NOTES, NEW_NOTE } from "../gql/query";
 import { useNavigate } from "react-router-dom";
+import { Loader } from "../components/Loader";
+import { Error } from "../components/Error";
 
 const NewNote: React.FC = () => {
   const navigate = useNavigate();
@@ -20,8 +22,8 @@ const NewNote: React.FC = () => {
 
   return (
     <>
-      {loading && <p>Loading...</p>}
-      {error && <p>Error saving the note</p>}
+      {loading && <Loader />}
+      {error && <Error message="saving the note" />}
       <NoteForm action={data} />
     </>
   );

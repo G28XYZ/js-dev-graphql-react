@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import UserForm from "../../components/UserForm";
 import { IS_LOGGED_IN } from "../../gql/query";
+import { Loader } from "../../components/Loader";
+import { Error } from "../../components/Error";
 
 const SIGNUP_USER = gql`
   mutation signUp($email: String!, $username: String!, $password: String!) {
@@ -35,8 +37,8 @@ const SignUp: FC<any> = () => {
   return (
     <>
       <UserForm action={signUp} formType="signup" />
-      {loading && <p>Loading...</p>}
-      {error && <p>Error creating an account!</p>}
+      {loading && <Loader />}
+      {error && <Error message="creating an account!" />}
     </>
   );
 };

@@ -5,18 +5,17 @@ import { useQuery } from "@apollo/client";
 import Button from "../components/Button";
 import NoteFeed from "../components/note/NoteFeed";
 import { GET_NOTES } from "../gql/query";
+import { Loader } from "../components/Loader";
+import { Error } from "../components/Error";
 
 const Home: React.FC = () => {
-  // Хук запроса
   const { data, loading, error, fetchMore } = useQuery(GET_NOTES);
-  if (loading) return <p>loading...</p>;
-  if (error) return <p>Error!</p>;
+  if (loading) return <Loader />;
+  if (error) return <Error />;
   return (
     <>
       <NoteFeed notes={data.noteFeed.notes} />
-      {/* Only display the Load More button if hasNextPage is true */}
       {data.noteFeed.hasNextPage && (
-        // onClick выполняет запрос, передавая в качестве переменной текущий курсор
         <Button
           onClick={() =>
             fetchMore({
@@ -27,7 +26,7 @@ const Home: React.FC = () => {
                 return {
                   noteFeed: {
                     cursor: fetchMoreResult.noteFeed.cursor,
-                    hasNextPage: fetchMoreResult.noteFeed.hasNextPage, // Совмещаем новые результаты со старыми
+                    hasNextPage: fetchMoreResult.noteFeed.hasNextPage,
                     notes: [...previousResult.noteFeed.notes, ...fetchMoreResult.noteFeed.notes],
                     __typename: "noteFeed",
                   },

@@ -9,11 +9,7 @@ export interface LayoutProps {
   children?: ReactNode;
 }
 
-// Стили компонента
 const Wrapper = styled.div`
-  /* Можно применить в стилизованном компоненте стили медиазапросов */
-  /* Таким образом, макет будет применяться только для экранов
-   шириной 700 пикселей и больше */
   @media (min-width: 700px) {
     display: flex;
     top: 64px;
@@ -30,7 +26,6 @@ const Main = styled.main`
   width: 100%;
   padding: 1em;
   overflow-y: scroll;
-  /* Снова применяем стили медиазапросов к экранам от 700 пикселей */
   @media (min-width: 700px) {
     flex: 1;
     margin-left: 220px;

@@ -3,6 +3,11 @@ import { navigation } from "../components/navigation/locale/ru";
 import { note } from "../components/note/locale/ru";
 import { auth } from "../pages/auth/locale/ru";
 
-const ru = { header, navigation, note, auth };
+const common = {
+  loading: "Загрузка...",
+  error: "Ошибка!",
+};
+
+const ru = { common, header, navigation, note, auth };
 
 export default ru;

@@ -1,5 +1,7 @@
 import { useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
+import { Error } from "../components/Error";
+import { Loader } from "../components/Loader";
 import NoteFeed from "../components/note/NoteFeed";
 import { GET_MY_FAVORITES } from "../gql/query";
 import { LOCALE } from "../hooks/useTranslate";
@@ -12,8 +14,8 @@ const Favorites: React.FC = () => {
   const {
     data: { lang },
   } = useQuery(LOCALE);
-  if (loading) return <>"Loading..."</>;
-  if (error) return <>`Error! ${error.message}`</>;
+  if (loading) return <Loader />;
+  if (error) return <Error message={error.message} />;
   if (data.me.favorites.length !== 0) {
     return <NoteFeed notes={data.me.favorites} />;
   } else {

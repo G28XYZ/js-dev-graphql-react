@@ -1,6 +1,8 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Error } from "../../components/Error";
+import { Loader } from "../../components/Loader";
 import UserForm from "../../components/UserForm";
 import { IS_LOGGED_IN } from "../../gql/query";
 
@@ -32,8 +34,8 @@ const SignIn: React.FC<any> = () => {
   return (
     <>
       <UserForm action={signIn} formType="signIn" />
-      {loading && <p>Loading...</p>}
-      {error && <p>Error signing in!</p>}
+      {loading && <Loader />}
+      {error && <Error message="signing in!" />}
     </>
   );
 };

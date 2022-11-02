@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-
 import { ApolloClient, ApolloLink, ApolloProvider, concat, HttpLink, InMemoryCache } from "@apollo/client";
 import { IS_LOGGED_IN } from "./gql/query";
 import { LOCALE, localize } from "./hooks/useTranslate";

@@ -1,8 +1,6 @@
-// Импортируем createGlobalStyle и нормализуем
 import { createGlobalStyle } from "styled-components";
 import "../vendor/normalize.css";
 
-// Можно написать CSS как шаблонный литерал JS
 export default createGlobalStyle`
   *, *:before, *:after {
     box-sizing: border-box;

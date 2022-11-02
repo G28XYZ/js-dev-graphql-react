@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { GET_ME, IS_LOGGED_IN } from "../gql/query";
 
 export const useCheckToken = () => {
-  const { client } = useQuery(GET_ME, {
+  const { data, client } = useQuery(GET_ME, {
     onCompleted(data) {
       if (data === undefined) resetSession();
     },
@@ -29,4 +29,6 @@ export const useCheckToken = () => {
       window.removeEventListener("storage", checkToken);
     };
   }, [checkToken]);
+
+  return { token, data, client };
 };
