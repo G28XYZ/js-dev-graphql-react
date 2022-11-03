@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { LOCALE } from "../../hooks/useTranslate";
 
@@ -22,8 +22,6 @@ const NavList = styled.ul`
   padding: 0;
   list-style: none;
   line-height: 2;
-  /* Мы можем вложить стили в styled-components */
-  /* Следующие стили будут применены к ссылкам в компоненте NavList */
   a {
     text-decoration: none;
     font-weight: bold;
@@ -33,6 +31,7 @@ const NavList = styled.ul`
   a:visited {
     color: #333;
   }
+  a.selected,
   a:hover,
   a:focus {
     color: #0077cc;
@@ -40,6 +39,7 @@ const NavList = styled.ul`
 `;
 
 const Navigation: React.FC = () => {
+  const location = useLocation();
   const {
     data: { lang },
   } = useQuery(LOCALE);
@@ -48,16 +48,24 @@ const Navigation: React.FC = () => {
     <Nav>
       <NavList>
         <li>
-          <Link to="/">🏠 {lang.navigation.home}</Link>
+          <Link to="/" className={`${location.pathname === "/" && "selected"}`}>
+            🏠 {lang.navigation.home}
+          </Link>
         </li>
         <li>
-          <Link to="/mynotes">📝 {lang.navigation.myNotes}</Link>
+          <Link to="/mynotes" className={`${location.pathname === "/mynotes" && "selected"}`}>
+            📝 {lang.navigation.myNotes}
+          </Link>
         </li>
         <li>
-          <Link to="/favorites">⭐ {lang.navigation.favorites}</Link>
+          <Link to="/favorites" className={`${location.pathname === "/favorites" && "selected"}`}>
+            ⭐ {lang.navigation.favorites}
+          </Link>
         </li>
         <li>
-          <Link to="/new">📃 {lang.navigation.new}</Link>
+          <Link to="/new" className={`${location.pathname === "/new" && "selected"}`}>
+            📃 {lang.navigation.new}
+          </Link>
         </li>
       </NavList>
     </Nav>

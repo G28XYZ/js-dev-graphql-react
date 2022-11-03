@@ -5,8 +5,8 @@ import { ApolloClient, ApolloLink, ApolloProvider, concat, HttpLink, InMemoryCac
 import { IS_LOGGED_IN } from "./gql/query";
 import { LOCALE, localize } from "./hooks/useTranslate";
 
-// const uri = "https://js-dev-graphql-react.vercel.app/api";
-const uri = "http://localhost:4000/api";
+const uri = "https://js-dev-graphql-react.vercel.app/api";
+// const uri = "http://localhost:4000/api";
 const cache = new InMemoryCache();
 const httpLink = new HttpLink({ uri });
 

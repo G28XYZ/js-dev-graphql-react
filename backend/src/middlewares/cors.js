@@ -6,7 +6,6 @@ module.exports = (req, res, next) => {
     allowedCors.some(e => e.test && e.test(origin)) ||
     allowedCors.includes(origin)
   ) {
-    console.log(origin);
     res.header('Access-Control-Allow-Origin', origin);
     res.header('Access-Control-Allow-Credentials', true);
   }

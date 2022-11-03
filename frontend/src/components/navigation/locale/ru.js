@@ -1,6 +1,6 @@
 export const navigation = {
   home: "Главная",
-  myNotes: "Мои заметки",
+  myNotes: "Заметки",
   favorites: "Избранные",
   new: "Новая заметка",
 };

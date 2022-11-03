@@ -16,6 +16,7 @@ export const LOCALE = gql`
 `;
 export const useTranslate = () => {
   const [locale, setLang] = useState("ru");
+
   const { client } = useQuery(LOCALE);
 
   client.cache.writeQuery({ query: LOCALE, data: { lang: localize[locale] } });

@@ -15,7 +15,6 @@ module.exports = {
     return await models.User.find({});
   },
   me: async (parent, args, { models, user }) => {
-    console.log(user);
     // Находим пользователя по текущему пользовательскому контексту
     return await models.User.findById(user.id);
   },

@@ -7,7 +7,6 @@ const helmet = require('helmet');
 const depthLimit = require('graphql-depth-limit');
 const { createComplexityLimitRule } = require('graphql-validation-complexity');
 const cors = require('./src/middlewares/cors');
-console.log('object');
 
 const models = require('./src/models');
 const typeDefs = require('./src/schema');

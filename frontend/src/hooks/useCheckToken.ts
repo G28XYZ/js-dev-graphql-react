@@ -20,7 +20,7 @@ export const useCheckToken = () => {
   }, [client.cache]);
 
   const checkToken = useCallback(() => {
-    if (token !== localStorage.getItem("token")) resetSession();
+    if (token && token !== localStorage.getItem("token")) resetSession();
   }, [resetSession, token]);
 
   useEffect(() => {
